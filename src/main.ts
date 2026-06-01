@@ -8,6 +8,8 @@ import { minifyJson, prettyJson } from './utils/json';
 import { countText } from './utils/text';
 
 const app = document.querySelector<HTMLDivElement>('#app');
+const adsenseClient = 'ca-pub-2007216448786117';
+const adsenseMainBottomSlot = '1636030778';
 const basePath = import.meta.env.BASE_URL;
 const basePrefix = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
 
@@ -26,6 +28,12 @@ const withBase = (path: string) => {
 
   return `${basePrefix}${path}`;
 };
+
+declare global {
+  interface Window {
+    adsbygoogle?: unknown[];
+  }
+}
 
 type State = {
   input: string;
@@ -70,9 +78,23 @@ const nav = () => `
 
 const adPlaceholder = (label: string) => `
   <aside class="ad-placeholder" aria-label="광고 영역">
-    <span>${label}</span>
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="${adsenseClient}"
+      data-ad-slot="${adsenseMainBottomSlot}"
+      data-ad-format="auto"
+      data-full-width-responsive="true"
+      data-ad-label="${label}"></ins>
   </aside>
 `;
+
+const initializeAds = () => {
+  document.querySelectorAll<HTMLModElement>('.adsbygoogle:not([data-ad-initialized="true"])').forEach((ad) => {
+    ad.dataset.adInitialized = 'true';
+    window.adsbygoogle = window.adsbygoogle || [];
+    window.adsbygoogle.push({});
+  });
+};
 
 const footer = () => `
   <footer class="footer">
@@ -88,6 +110,7 @@ const renderShell = (content: string) => {
     <main>${content}</main>
     ${footer()}
   `;
+  initializeAds();
 };
 
 const renderHome = () => {
