@@ -350,6 +350,8 @@ const renderTool = (tool: ToolMeta) => {
       </article>
     </section>
 
+    ${adPlaceholder('ad-placeholder · below caution')}
+
     <section class="related">
       <h2>관련 도구</h2>
       <div class="quick-list">${relatedTools(tool)}</div>
