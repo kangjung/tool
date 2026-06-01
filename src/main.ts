@@ -8,6 +8,24 @@ import { minifyJson, prettyJson } from './utils/json';
 import { countText } from './utils/text';
 
 const app = document.querySelector<HTMLDivElement>('#app');
+const basePath = import.meta.env.BASE_URL;
+const basePrefix = basePath.endsWith('/') ? basePath.slice(0, -1) : basePath;
+
+const toRoutePath = (path: string) => {
+  if (basePrefix && basePrefix !== '/' && path.startsWith(basePrefix)) {
+    return path.slice(basePrefix.length) || '/';
+  }
+
+  return path;
+};
+
+const withBase = (path: string) => {
+  if (!basePrefix || basePrefix === '/') {
+    return path;
+  }
+
+  return `${basePrefix}${path}`;
+};
 
 type State = {
   input: string;
@@ -27,7 +45,7 @@ const state: State = {
   uuidCount: 5
 };
 
-const routeTool = getToolByPath(window.location.pathname);
+const routeTool = getToolByPath(toRoutePath(window.location.pathname));
 
 const setTitle = (tool?: ToolMeta) => {
   document.title = tool ? `${tool.title} - DevBox` : 'DevBox - 브라우저 개발자 도구';
@@ -37,7 +55,7 @@ const icon = (name: string) => `<span aria-hidden="true" class="icon">${name}</s
 
 const nav = () => `
   <header class="app-header">
-    <a class="brand" href="/" aria-label="DevBox 홈">
+    <a class="brand" href="${withBase('/')}" aria-label="DevBox 홈">
       <span class="brand-mark">D</span>
       <span>
         <strong>DevBox</strong>
@@ -45,7 +63,7 @@ const nav = () => `
       </span>
     </a>
     <nav class="nav-links" aria-label="주요 도구">
-      ${tools.map((tool) => `<a href="${tool.path}" ${routeTool?.id === tool.id ? 'aria-current="page"' : ''}>${tool.shortTitle}</a>`).join('')}
+      ${tools.map((tool) => `<a href="${withBase(tool.path)}" ${routeTool?.id === tool.id ? 'aria-current="page"' : ''}>${tool.shortTitle}</a>`).join('')}
     </nav>
   </header>
 `;
@@ -104,7 +122,7 @@ const renderHome = () => {
     <section class="popular">
       <h2>인기 도구</h2>
       <div class="quick-list">
-        ${tools.slice(0, 4).map((tool) => `<a href="${tool.path}">${tool.shortTitle}<span>${tool.summary}</span></a>`).join('')}
+        ${tools.slice(0, 4).map((tool) => `<a href="${withBase(tool.path)}">${tool.shortTitle}<span>${tool.summary}</span></a>`).join('')}
       </div>
     </section>
 
@@ -128,7 +146,7 @@ const renderHome = () => {
     grid.innerHTML = filtered
       .map(
         (tool) => `
-          <a class="tool-card" href="${tool.path}">
+          <a class="tool-card" href="${withBase(tool.path)}">
             <span class="tag">${tool.category}</span>
             <h2>${tool.shortTitle}</h2>
             <p>${tool.summary}</p>
@@ -242,7 +260,7 @@ const relatedTools = (tool: ToolMeta) =>
   tools
     .filter((item) => item.id !== tool.id && (item.category === tool.category || item.category === 'Encoding'))
     .slice(0, 3)
-    .map((item) => `<a href="${item.path}">${item.shortTitle}<span>${item.summary}</span></a>`)
+    .map((item) => `<a href="${withBase(item.path)}">${item.shortTitle}<span>${item.summary}</span></a>`)
     .join('');
 
 const renderTool = (tool: ToolMeta) => {

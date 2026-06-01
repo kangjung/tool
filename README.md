@@ -23,6 +23,12 @@ npm run preview
 
 Deploy the generated `dist` directory, not the project root.
 
+The GitHub Pages URL for this repository is:
+
+```txt
+https://kangjung.github.io/tool/
+```
+
 The source HTML files intentionally load `/src/main.ts` for the Vite dev server. A plain static server will serve `.ts` files with the wrong MIME type, which causes this browser error:
 
 ```txt

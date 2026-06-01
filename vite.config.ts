@@ -3,7 +3,8 @@ import { defineConfig } from 'vite';
 
 const page = (name: string) => resolve(__dirname, name, 'index.html');
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/tool/' : '/',
   build: {
     rollupOptions: {
       input: {
@@ -18,4 +19,4 @@ export default defineConfig({
       }
     }
   }
-});
+}));
