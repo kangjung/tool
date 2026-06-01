@@ -29,7 +29,7 @@ The GitHub Pages URL for this repository is:
 https://kangjung.github.io/tool/
 ```
 
-The source HTML files intentionally load `/src/main.ts` for the Vite dev server. A plain static server will serve `.ts` files with the wrong MIME type, which causes this browser error:
+The source HTML files intentionally load `/tool/src/main.ts` for the Vite dev server. A plain static server will serve `.ts` files with the wrong MIME type, which causes this browser error:
 
 ```txt
 Failed to load module script: Expected a JavaScript-or-Wasm module script but the server responded with a MIME type of "video/mp2t".
