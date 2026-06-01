@@ -399,14 +399,20 @@ textarea:focus {
 }
 
 .ad-placeholder {
-  display: grid;
-  place-items: center;
+  display: block;
+  width: 100%;
   min-height: 6rem;
   margin: 1.5rem 0;
   border: 1px dashed #465360;
   border-radius: 8px;
   background: rgba(21, 26, 32, 0.7);
   color: #8394a4;
+}
+
+.ad-placeholder .adsbygoogle {
+  display: block;
+  width: 100%;
+  min-height: 90px;
 }
 
 .info-grid {

@@ -79,7 +79,7 @@ const nav = () => `
 const adPlaceholder = (label: string) => `
   <aside class="ad-placeholder" aria-label="광고 영역">
     <ins class="adsbygoogle"
-      style="display:block"
+      style="display:block;width:100%;min-height:90px"
       data-ad-client="${adsenseClient}"
       data-ad-slot="${adsenseMainBottomSlot}"
       data-ad-format="auto"
@@ -89,10 +89,23 @@ const adPlaceholder = (label: string) => `
 `;
 
 const initializeAds = () => {
-  document.querySelectorAll<HTMLModElement>('.adsbygoogle:not([data-ad-initialized="true"])').forEach((ad) => {
-    ad.dataset.adInitialized = 'true';
-    window.adsbygoogle = window.adsbygoogle || [];
-    window.adsbygoogle.push({});
+  window.requestAnimationFrame(() => {
+    document.querySelectorAll<HTMLElement>('.adsbygoogle:not([data-ad-initialized="true"])').forEach((ad) => {
+      if (ad.offsetWidth === 0) {
+        window.setTimeout(initializeAds, 100);
+        return;
+      }
+
+      ad.dataset.adInitialized = 'true';
+      window.adsbygoogle = window.adsbygoogle || [];
+
+      try {
+        window.adsbygoogle.push({});
+      } catch (error) {
+        ad.dataset.adInitialized = 'false';
+        console.warn('AdSense initialization skipped:', error);
+      }
+    });
   });
 };
 
