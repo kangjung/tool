@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>/</loc></url>
+  <url><loc>/base64/</loc></url>
+  <url><loc>/sha256/</loc></url>
+  <url><loc>/json/</loc></url>
+  <url><loc>/url/</loc></url>
+  <url><loc>/html/</loc></url>
+  <url><loc>/uuid/</loc></url>
+  <url><loc>/text/</loc></url>
+</urlset>
