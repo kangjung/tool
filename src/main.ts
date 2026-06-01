@@ -40,7 +40,6 @@ type State = {
   output: string;
   status: string;
   error: string;
-  mode: string;
   uuidCount: number;
 };
 
@@ -49,7 +48,6 @@ const state: State = {
   output: '',
   status: '',
   error: '',
-  mode: 'encode',
   uuidCount: 5
 };
 
@@ -162,7 +160,7 @@ const renderHome = () => {
       </div>
     </section>
 
-    ${adPlaceholder('ad-placeholder · tool list bottom')}
+    ${adPlaceholder('main bottom')}
   `);
 
   const grid = document.querySelector<HTMLDivElement>('#tool-grid');
@@ -221,25 +219,25 @@ const runAction = async (tool: ToolMeta, action: string) => {
   try {
     if (tool.id === 'base64') {
       const output = action === 'decode' ? decodeBase64(input) : action === 'url-decode' ? decodeUrlSafeBase64(input) : action === 'url-encode' ? encodeUrlSafeBase64(input) : encodeBase64(input);
-      setState({ input, output, status: '변환이 완료되었습니다.', error: '', mode: action });
+      setState({ input, output, status: '변환이 완료되었습니다.', error: '' });
     }
 
     if (tool.id === 'sha256') {
-      setState({ input, output: await sha256(input), status: 'SHA-256 해시를 생성했습니다.', error: '', mode: action });
+      setState({ input, output: await sha256(input), status: 'SHA-256 해시를 생성했습니다.', error: '' });
     }
 
     if (tool.id === 'json') {
       const output = action === 'minify' ? minifyJson(input) : action === 'validate' ? 'Valid JSON' : prettyJson(input);
-      setState({ input, output, status: action === 'validate' ? '유효한 JSON입니다.' : 'JSON 처리가 완료되었습니다.', error: '', mode: action });
+      setState({ input, output, status: action === 'validate' ? '유효한 JSON입니다.' : 'JSON 처리가 완료되었습니다.', error: '' });
     }
 
     if (tool.id === 'url') {
       const output = action === 'decode' ? decodeUrl(input) : action === 'query' ? parseQueryString(input) || 'Query string이 없습니다.' : encodeUrl(input);
-      setState({ input, output, status: 'URL 처리가 완료되었습니다.', error: '', mode: action });
+      setState({ input, output, status: 'URL 처리가 완료되었습니다.', error: '' });
     }
 
     if (tool.id === 'html') {
-      setState({ input, output: action === 'decode' ? decodeHtml(input) : encodeHtml(input), status: 'HTML Entity 처리가 완료되었습니다.', error: '', mode: action });
+      setState({ input, output: action === 'decode' ? decodeHtml(input) : encodeHtml(input), status: 'HTML Entity 처리가 완료되었습니다.', error: '' });
     }
 
     if (tool.id === 'uuid') {
@@ -265,25 +263,25 @@ const runAction = async (tool: ToolMeta, action: string) => {
 const actionButtons = (toolId: ToolId) => {
   const actions: Record<ToolId, [string, string, string][]> = {
     base64: [
-      ['encode', '⇢', 'Base64 Encode'],
-      ['decode', '⇠', 'Base64 Decode'],
-      ['url-encode', '⤴', 'URL Safe Encode'],
-      ['url-decode', '⤵', 'URL Safe Decode']
+      ['encode', '->', 'Base64 Encode'],
+      ['decode', '<-', 'Base64 Decode'],
+      ['url-encode', 'U+', 'URL Safe Encode'],
+      ['url-decode', 'U-', 'URL Safe Decode']
     ],
     sha256: [['hash', '#', 'Generate SHA-256']],
     json: [
-      ['pretty', '≡', 'Pretty Print'],
-      ['minify', '−', 'Minify'],
-      ['validate', '✓', 'Validate']
+      ['pretty', '{}', 'Pretty Print'],
+      ['minify', '-', 'Minify'],
+      ['validate', 'OK', 'Validate']
     ],
     url: [
-      ['encode', '⇢', 'URL Encode'],
-      ['decode', '⇠', 'URL Decode'],
+      ['encode', '->', 'URL Encode'],
+      ['decode', '<-', 'URL Decode'],
       ['query', '?', 'QueryString']
     ],
     html: [
-      ['encode', '⇢', 'HTML Encode'],
-      ['decode', '⇠', 'HTML Decode']
+      ['encode', '->', 'HTML Encode'],
+      ['decode', '<-', 'HTML Decode']
     ],
     uuid: [['generate', '+', 'Generate']],
     text: [['count', '#', 'Count']]
@@ -318,8 +316,8 @@ const renderTool = (tool: ToolMeta) => {
         <div class="actions">${actionButtons(tool.id)}</div>
         ${tool.id === 'uuid' ? '<label class="count-control">개수 <input id="uuid-count" type="number" min="1" max="100" value="5" /></label>' : ''}
         <button class="ghost" id="sample" type="button" title="예시 입력">${icon('◎')}<span>Example</span></button>
-        <button class="ghost" id="copy" type="button" title="결과 복사">${icon('⧉')}<span>Copy</span></button>
-        <button class="ghost" id="clear" type="button" title="초기화">${icon('×')}<span>Clear</span></button>
+        <button class="ghost" id="copy" type="button" title="결과 복사">${icon('Copy')}<span>Copy</span></button>
+        <button class="ghost" id="clear" type="button" title="초기화">${icon('X')}<span>Clear</span></button>
       </div>
 
       <div class="io-grid">
@@ -335,7 +333,7 @@ const renderTool = (tool: ToolMeta) => {
       <p id="status" class="status" aria-live="polite"></p>
     </section>
 
-    ${adPlaceholder('ad-placeholder · below tool workspace')}
+    ${adPlaceholder('tool workspace bottom')}
 
     <section class="info-grid">
       <article>
@@ -350,7 +348,7 @@ const renderTool = (tool: ToolMeta) => {
       </article>
     </section>
 
-    ${adPlaceholder('ad-placeholder · below caution')}
+    ${adPlaceholder('tool caution bottom')}
 
     <section class="related">
       <h2>관련 도구</h2>

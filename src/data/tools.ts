@@ -22,10 +22,10 @@ export const tools: ToolMeta[] = [
     path: '/base64/',
     category: 'Encoding',
     summary: 'UTF-8 문자열을 Base64와 URL Safe Base64로 변환합니다.',
-    description: 'Base64 인코딩, 디코딩, URL Safe Base64 변환을 브라우저에서 바로 처리합니다.',
+    description: '한글, 이모지, 특수문자를 포함한 UTF-8 문자열을 Base64로 인코딩하거나 디코딩합니다.',
     keywords: ['base64 인코더', 'base64 디코더', 'base64 url safe', 'encode', 'decode'],
-    example: 'DevBox에서 처리합니다.',
-    caution: '디코딩할 수 없는 Base64 문자열은 오류 메시지로 알려드립니다.'
+    example: '안녕하세요 DevBox 👋',
+    caution: '디코딩할 문자열은 UTF-8 텍스트로 만들어진 Base64여야 합니다. 이미지나 파일 Base64는 글자가 깨져 보일 수 있습니다.'
   },
   {
     id: 'sha256',
@@ -47,7 +47,7 @@ export const tools: ToolMeta[] = [
     path: '/json/',
     category: 'Format',
     summary: 'JSON 정렬, 압축, 유효성 검사를 빠르게 처리합니다.',
-    description: 'JSON Pretty Print, Minify, Validate를 한 화면에서 처리하고 오류 위치를 확인합니다.',
+    description: 'JSON Pretty Print, Minify, Validate를 한 화면에서 처리하고 오류 메시지를 확인합니다.',
     keywords: ['json formatter', 'json pretty print', 'json 정렬', 'json 압축'],
     example: '{"name":"DevBox","tools":["json","base64"],"active":true}',
     caution: 'JSON 문법이 올바르지 않으면 브라우저가 반환하는 파싱 오류를 표시합니다.'
